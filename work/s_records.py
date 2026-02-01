@@ -33,9 +33,9 @@ while counter < total:
     # Receive score and validate input
     score = input(f'Enter {student} score:\n')
     score = score_validation(score)
-    while score< 0 or score > 100:
-        score = input('Value should be in the range 0-100:\n')
-        score = score_validation(score)
+    # while score< 0 or score > 100:
+    #     score = input('Value should be in the range 0-100:\n')
+    score = score_validation(score)
     print(f'{student} scored {score}')
 
     # Store in dictionary
@@ -58,10 +58,26 @@ if update == 'yes':
     elif update_student in records:
         new_score = input(f'Enter {update_student} new score:\n')
         new_score = score_validation(new_score)
+        records[update_student] = new_score
     elif update_student not in records:
         print(f'{update_student} not found in records.')
         
-records[update_student] = new_score
+# Statistics. Extract scores from dictionary
+stats_opt = ['Number of students', 'Largest score', 'Smallest score', 'Average score']
+for index, options in enumerate(stats_opt):
+    print(f'{index + 1}. {options}')
+print('---------------------')
+stats_input = input('What statistics would you like to see??\n')
+stats_input = score_validation(stats_input)
 
-for index, (key, values) in enumerate(records.items(), start = 1):
-    print(f'{index}. {key} : {values}')
+scores = records.values()
+score = list(scores)
+
+# Number of students
+no_of_students = len(records)
+# Max score
+max_score = max(score)
+# Min score
+min_score = min(score)
+# Average score
+avg_score = sum(score) / no_of_students
