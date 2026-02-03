@@ -1,3 +1,4 @@
+from records import StudentRecords
 print('Welcome')
 
 # Functions
@@ -13,7 +14,7 @@ def score_validation(variable):
         variable = input('Value should be in the range 0-100:\n')
     return int(variable)
 
-records = {}
+records = StudentRecords()
 
 try:
     total = int(input('Enter number of students you wish to enter:\n'))
@@ -34,7 +35,7 @@ while counter < total:
     print(f'{student} scored {score}')
 
     # Store in dictionary
-    records[student] = score
+    records = records.add_student(student,score)
     counter += 1
 
 # View all records
