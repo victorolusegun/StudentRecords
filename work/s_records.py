@@ -24,6 +24,7 @@ def menu_opt_validation(variable):
 def print_menu(menu_options):
     for index, option in enumerate(menu_options, start = 1):
         print(f'{index}. {option}')
+
 # Start of program
 menu = ['Add student records', 'View student records', 'Update student records', 'Statistics', 'Exit']
 print_menu(menu)
@@ -34,10 +35,13 @@ records = StudentRecords()
 
 if options == 1:
     try:
-        total = int(input('Enter number of students you wish to enter:\n'))
+        total = input('Enter number of students you wish to enter:\n')
+        total = int(total)
     except ValueError:
         print('Invalid input, defaulting to 1 student.')
         total = 1
+    if total == 'menu':
+        print_menu(menu)
     counter = 0
     while counter < total:
         # Collect student name and validate input
