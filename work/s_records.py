@@ -6,6 +6,7 @@ records = StudentRecords()
 def string_validation(variable):
     while variable == '' or variable.isnumeric() is True:
         variable = input('Invalid input.\nEnter valid input:\n')
+    variable = variable.strip().capitalize()
     return variable
 
 def score_validation(variable):
@@ -26,17 +27,17 @@ def print_menu(menu_options):
     for index, option in enumerate(menu_options, start = 1):
         print(f'{index}. {option}')
 
-def string_wrangling(variable):
-    variable = variable.strip().capitalize()
-    return variable
+def exit_program():
+    print('----------------------')
+    print('Exiting program...')
+    quit('Program ended.\n----------------------')
 
-# Start of program
+# START PROGRAM
 while True:
-    hold = ''
-    while hold == '':
+    while True:
         menu = ['Add student(s) record', 'View student(s) record', 'Update student(s) record', 'Statistics', 'Exit']
         print_menu(menu)
-        print('Menu can be accessed anytime by typing (menu)')
+        print('NB: MENU CAN BE ACCESSED ANYTIME BY TYPING "menu" \nPROGRAM CAN BE EXITED ANYTIME BY TYPING "end" OR "exit".')
         options = input('Select an option (1-5)\n')
         options = menu_opt_validation(options)
 
@@ -46,10 +47,10 @@ while True:
             try:
                 total = input('Enter number of students you wish to enter:\n')
                 if total == 'menu':
-                    hold = 'menu'
+                    print('---------------------')
                     break
                 elif total == 'exit' or total == 'end':
-                    quit()
+                   exit_program()
                 total = int(total)
             except ValueError:
                 print('Invalid input, defaulting to 1 student.')
@@ -59,12 +60,10 @@ while True:
                 # Collect student name and validate input
                 student = input('Enter student name (Enter end/exit to quit program):\n')
                 student = string_validation(student)
-                student = student.strip().capitalize()
                 if student == 'Menu':
-                    hold = 'menu'
                     break
                 elif student == 'End' or student == 'Exit':
-                    quit()
+                    exit_program()
                 # Receive score and validate input
                 score = input(f'Enter {student} score:\n')
                 score = score_validation(score)
@@ -78,32 +77,32 @@ while True:
         elif options == 2:
             records.view_student()
             print('---------------------')
-            choices = ['yes', 'no']
+            choices = ['Yes', 'No']
             proceed = input('Do you want to return to the menu? (yes/no)\n')
+            proceed = string_validation(proceed)
             while proceed not in choices:
                 proceed = input('Invalid input, please enter (yes/no)\n')
-            if proceed == 'yes' or proceed == 'menu':
+            if proceed == 'Yes' or proceed == 'Menu':
                 break
-            elif proceed == 'no' or proceed == 'end' or proceed == 'exit':
-                quit()
+            elif proceed == 'No' or proceed == 'End' or proceed == 'Exit':
+                exit_program()
         
         # Update a record
         elif options == 3:
-            # proceed = ['yes', 'no']
             if len(records.records) == 0:
+                print('---------------------')
                 print('No records to update')
+                print('---------------------')
             else:
                 student_update = input('Enter name of student whose records you need to update\nEnter only existing student\n')
-                student_update = student_update.strip().lower()
                 student_update = string_validation(student_update)
                 if student_update == 'menu':
-                    print_menu(menu)
-                elif student_update == 'end':
-                    A += 1
+                    print('---------------------')
                     break
+                elif student_update == 'end' or student_update == 'exit':
+                    exit_program()
                 while student_update not in records.records:
                     student_update = input('Invalid input, please enter a valid student name: \n')
-                    student_update = student_update.strip().lower()
                     student_update = string_validation(student_update)
                 if student_update in records.records:
                     new_score = input(f'Enter {student_update} new score:\n')
@@ -157,9 +156,4 @@ while True:
         else:
             print('Invalid option selected. Exiting program')
             quit()
-    if hold == 'menu':
-        hold = ''
-    else:
-        pass
-    # break
 print('Program ended.')
