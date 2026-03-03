@@ -33,7 +33,7 @@ def string_wrangling(variable):
 # Start of program
 while True:
     hold = ''
-    while True:
+    while hold == '':
         menu = ['Add student(s) record', 'View student(s) record', 'Update student(s) record', 'Statistics', 'Exit']
         print_menu(menu)
         print('Menu can be accessed anytime by typing (menu)')
@@ -57,7 +57,7 @@ while True:
             counter = 0
             while counter < total:
                 # Collect student name and validate input
-                student = input('Enter student name (Enter end to stop):\n')
+                student = input('Enter student name (Enter end/exit to quit program):\n')
                 student = string_validation(student)
                 student = student.strip().capitalize()
                 if student == 'Menu':
@@ -76,11 +76,16 @@ while True:
 
         # View all records
         elif options == 2:
-            if records.records != {}:
-                for index, (key, values) in enumerate(records.records.items(), start = 1):
-                    print(f'{index}. {key} : {values}')
-            else:
-                print('No records have been entered')
+            records.view_student()
+            print('---------------------')
+            choices = ['yes', 'no']
+            proceed = input('Do you want to return to the menu? (yes/no)\n')
+            while proceed not in choices:
+                proceed = input('Invalid input, please enter (yes/no)\n')
+            if proceed == 'yes' or proceed == 'menu':
+                break
+            elif proceed == 'no' or proceed == 'end' or proceed == 'exit':
+                quit()
         
         # Update a record
         elif options == 3:
@@ -146,11 +151,15 @@ while True:
             else:
                 print('No records available for statistics.')
         elif options == 5:
-            quit()
+            print('\n----------------------')
+            print('Exiting program...')
+            quit('Program ended.\n----------------------')
         else:
             print('Invalid option selected. Exiting program')
             quit()
     if hold == 'menu':
-        A = 0
+        hold = ''
     else:
         pass
+    # break
+print('Program ended.')
