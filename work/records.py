@@ -19,5 +19,25 @@ class StudentRecords:
         else:
             print(f'Student {name} not found in records.')
 
-class Statistics(StudentRecords):
-    pass
+
+class Statistics():
+    def __init__(self, scores):
+       self.scores = scores
+    
+    def num_std(self):
+       num = len(self.scores)
+       return num
+    
+    def max_score(self):
+        high_score = max(self.scores)
+        return high_score
+     
+    def min_score(self):
+        low_score = min(self.scores)
+        return low_score
+    
+    def avg_score(self):
+        sum_score = sum(self.scores)
+        num = len(self.scores)
+        avg = sum_score / num
+        return avg

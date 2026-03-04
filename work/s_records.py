@@ -1,8 +1,9 @@
-from records import *
+from records import StudentRecords
+from records import Statistics
 print('Student Records Management System')
 
 records = StudentRecords()
-# Functions
+                                    # FUNCTIONS
 def string_validation(variable):
     while variable == '' or variable.isnumeric() is True:
         variable = input('Invalid input.\nEnter valid input:\n')
@@ -32,18 +33,19 @@ def exit_program():
     print('Exiting program...')
     quit('Program ended.\n----------------------')
 
-# START PROGRAM
+                                        # START PROGRAM
 while True:
     while True:
         menu = ['Add student(s) record', 'View student(s) record', 'Update student(s) record', 'Statistics', 'Exit']
         print_menu(menu)
         print('NB: MENU CAN BE ACCESSED ANYTIME BY TYPING "menu" \nPROGRAM CAN BE EXITED ANYTIME BY TYPING "end" OR "exit".')
+        print('---------------------')
         options = input('Select an option (1-5)\n')
         options = menu_opt_validation(options)
 
-        # Add Student(s)
+                                        # ADD STUDENTS(S)
         if options == 1:
-            # Get total number of student user wants to add or use default
+            # Get total number of student user wants to add or use default total
             try:
                 total = input('Enter number of students you wish to enter:\n')
                 if total == 'menu':
@@ -73,7 +75,7 @@ while True:
                 records.add_student(student,score)
                 counter += 1
 
-        # View all records
+                                            # VIEW STORED RECORDS
         elif options == 2:
             records.view_student()
             print('---------------------')
@@ -87,7 +89,7 @@ while True:
             elif proceed == 'No' or proceed == 'End' or proceed == 'Exit':
                 exit_program()
         
-        # Update a record
+                                            # UPDATE RECORDS
         elif options == 3:
             if len(records.records) == 0:
                 print('---------------------')
@@ -114,7 +116,7 @@ while True:
                     print('No update performed.')
                 
 
-        # Statistics
+                                            # STATISTICS
         elif options == 4:              
             stats_opt = ['Number of students', 'Largest score', 'Smallest score', 'Average score', 'All statistics']
             print_menu(stats_opt)
@@ -123,32 +125,62 @@ while True:
                 stats_input = input('What statistics would you like to see??\n')
                 stats_input = menu_opt_validation(stats_input)
 
-                scores = records.records.values()
-                score = list(scores)
+                score = records.records.values()
+                # student = records.records.keys()
+                scores = list(score)
+                # students = list(student)
+                list_info = Statistics(scores)
 
-                # Number of students
+                        # TOTAL NUMBER OF STUDENTS
+                num_students = list_info.num_std()
+
+                        # STUDENT WITH THE HIGHEST SCORE
+                max_score = list_info.max_score()
+                for key, value in records.records.items():
+                    if value == max_score:
+                        high_std = key
+
+                        # STUDENT WITH THE LOWEST SCORE
+                min_score = list_info.min_score()
+                for key, value in records.records.items():
+                    if value == min_score:
+                        low_std = key
+
+                        # AVERAGE SCORE OF THE CLASS
+                avg_score = list_info.avg_score()
+
+                        # TOTAL STUDENTS
                 if stats_input == 1:
-                    no_of_students = len(records.records)
-                    print(f'Number of students: {no_of_students}')
+                    print(f'The total number of students is: {num_students}')
+                        # HIGHEST SCORE
                 elif stats_input == 2:
-                    # Max score
-                    max_score = max(score)
-                    for key, value in records.records.items():
-                        if value == max_score:
-                            high_std = key
                     print(f'Highest score: {max_score} scored by {high_std}')
+                        # LOWEST SCORE
                 elif stats_input == 3:
-                    # Min score
-                    min_score = min(score)
-                    print(f'Lowest score: {min_score}')
+                    print(f'Lowest score: {min_score} scored by {low_std}')
+                        # AVERAGE
                 elif stats_input == 4:
-                    # Average score
-                    avg_score = sum(score) / len(records.records)
                     print(f'The average score is: {avg_score}')
-                else:
-                    print(f'No available statistics')
+                        # ALL STATS
+                elif stats_input == 5:
+                    print(f'The total number of students is: {num_students}')
+                    print(f'Highest score: {max_score} scored by {high_std}')
+                    print(f'Lowest score: {min_score} scored by {low_std}')
+                    print(f'The average score is: {avg_score}')
+                        # TEXT FILE GENERATION
+                    file_path = 'data/statistics.txt'
+                    print('\n----------------------')
+                    print(f'Records summary generated(file_path = {file_path})...')
+                    with open(file_path, 'w') as stats_summary:
+                        stats_summary.write(f'Summary of Records (Statistics)\n')
+                        stats_summary.write('----------------------\n')
+                        stats_summary.write(f'The total number of students is: {num_students}\n')
+                        stats_summary.write(f'Highest score: {max_score} scored by {high_std}\n')
+                        stats_summary.write(f'Lowest score: {min_score} scored by {low_std}\n')
+                        stats_summary.write(f'The average score is: {avg_score}\n')
             else:
                 print('No records available for statistics.')
+                                        # EXITING PROGRAM
         elif options == 5:
             print('\n----------------------')
             print('Exiting program...')
