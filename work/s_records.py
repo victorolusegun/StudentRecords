@@ -1,7 +1,7 @@
-from records import StudentRecords
-from records import Statistics
-print('Student Records Management System')
+#                                   # IMPORTING CLASSES
+from records import *
 
+print('Student Records Management System')
 records = StudentRecords()
                                     # FUNCTIONS
 def string_validation(variable):
@@ -66,6 +66,11 @@ while True:
                     break
                 elif student == 'End' or student == 'Exit':
                     exit_program()
+
+                # Validate student hasn't already been added
+                while student in records.records:
+                    student = input('Student already exists. Please enter a new student')
+
                 # Receive score and validate input
                 score = input(f'Enter {student} score:\n')
                 score = score_validation(score)
@@ -74,6 +79,10 @@ while True:
                 # Store in dictionary
                 records.add_student(student,score)
                 counter += 1
+
+                # Visible entered student counter for users
+                print(f'{int(total)} - {int(counter)} students left\n')
+                print('---------------------')
 
                                             # VIEW STORED RECORDS
         elif options == 2:
@@ -91,6 +100,7 @@ while True:
         
                                             # UPDATE RECORDS
         elif options == 3:
+            # Check records isn't empty
             if len(records.records) == 0:
                 print('---------------------')
                 print('No records to update')
@@ -98,10 +108,10 @@ while True:
             else:
                 student_update = input('Enter name of student whose records you need to update\nEnter only existing student\n')
                 student_update = string_validation(student_update)
-                if student_update == 'menu':
+                if student_update == 'Menu':
                     print('---------------------')
                     break
-                elif student_update == 'end' or student_update == 'exit':
+                elif student_update == 'End' or student_update == 'Exit':
                     exit_program()
                 while student_update not in records.records:
                     student_update = input('Invalid input, please enter a valid student name: \n')
